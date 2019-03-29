@@ -1,9 +1,10 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Android;
 using Android.App;
 using Android.Gms.Maps;
+using Android.Gms.Maps.Model;
 using Android.OS;
-using Android.Runtime;
 using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
@@ -11,6 +12,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
+using Plugin.Geolocator;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 
 namespace FamilyLocator
@@ -57,9 +59,64 @@ namespace FamilyLocator
             }
         }
 
-        public void OnMapReady(GoogleMap googleMap)
+        public async void OnMapReady(GoogleMap googleMap)
         {
             mMap = googleMap;
+
+            var location = await getUserLatLng();
+            updateCamera(location);
+            addMarker(mMap, location);
+        }
+
+        private void updateCamera(LatLng location)
+        {
+            CameraPosition.Builder builder = CameraPosition.InvokeBuilder();
+            builder.Target(location);
+            builder.Zoom(18);
+            builder.Bearing(155);
+            builder.Tilt(65);
+
+            CameraPosition cameraPosition = builder.Build();
+
+            CameraUpdate cameraUpdate = CameraUpdateFactory.NewCameraPosition(cameraPosition);
+
+            mMap.MoveCamera(cameraUpdate);
+
+            mMap.MapType = GoogleMap.MapTypeHybrid;
+            mMap.UiSettings.ZoomControlsEnabled = true;
+            mMap.UiSettings.CompassEnabled = true;
+            // Do something with the map, i.e. add markers, move to a specific location, etc.
+        }
+
+        private async Task<LatLng> getUserLatLng()
+        {
+            var locator = CrossGeolocator.Current;
+            if (locator.IsGeolocationEnabled)
+            {
+                locator.DesiredAccuracy = 50;
+                var position = await locator.GetPositionAsync(timeout: TimeSpan.FromSeconds(10));
+                return new LatLng(position.Latitude, position.Longitude);
+            }
+            else
+            {
+                NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
+                Snackbar.Make(navigationView, "Geo Location is not enabled", Snackbar.LengthLong)
+                    .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+
+                return new LatLng(11.016844, 76.955833);
+            }
+        }
+
+        private void addMarker(GoogleMap map, LatLng location)
+        {
+            MarkerOptions markerOpt1 = new MarkerOptions();
+            markerOpt1.SetPosition(location);
+            markerOpt1.SetTitle("My Location!");
+
+            var bmDescriptor = BitmapDescriptorFactory.DefaultMarker(BitmapDescriptorFactory.HueCyan);
+            markerOpt1.InvokeIcon(bmDescriptor);
+
+            map.AddMarker(markerOpt1);
         }
 
         private void permissionCheck()
@@ -111,11 +168,11 @@ namespace FamilyLocator
             return base.OnOptionsItemSelected(item);
         }
 
-        private void FabOnClick(object sender, EventArgs eventArgs)
+        private async void FabOnClick(object sender, EventArgs eventArgs)
         {
             View view = (View) sender;
-            Snackbar.Make(view, "Replace with your own action", Snackbar.LengthLong)
-                .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
+            var location = await getUserLatLng();
+            updateCamera(location);
         }
 
         public bool OnNavigationItemSelected(IMenuItem item)
