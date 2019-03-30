@@ -2,6 +2,7 @@
 using System.Threading.Tasks;
 using Android;
 using Android.App;
+using Android.Content;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
@@ -12,8 +13,10 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
+using Android.Widget;
 using Plugin.Geolocator;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
+using AlertDialog = Android.App.AlertDialog;
 
 namespace FamilyLocator
 {
@@ -163,10 +166,38 @@ namespace FamilyLocator
             if (id == Resource.Id.action_settings)
             {
                 return true;
+            } else if (id == Resource.Id.action_changeView)
+            {
+                //methodInvokeBaseAlertDialog();
+                var alertDialog = new AlertDialog.Builder(this);
+                alertDialog.SetTitle("Select the View");
+                var radioView = FindViewById<DrawerLayout>(Resource.Id.radio_group);
+                alertDialog.SetView(radioView);
+                alertDialog.Show();
             }
 
             return base.OnOptionsItemSelected(item);
         }
+
+        //private void methodInvokeBaseAlertDialog()
+        //{
+        //    Dialog dialog = new Dialog(this);
+        //    dialog.SetContentView(Resource.Layout.content_main);
+        //    dialog.SetTitle("Dialog with Radio Button");
+        //    dialog.SetCancelable(true);
+
+        //    RadioButton rd1 = (RadioButton)dialog.FindViewById(Resource.Id.rd1);
+        //    RadioButton rd2 = (RadioButton)dialog.FindViewById(Resource.Id.rd2);
+
+        //    dialog.Show();
+        //}
+
+        //void handllerNotingButton(object sender, DialogClickEventArgs e)
+        //{
+        //    AlertDialog objAlertDialog = sender as AlertDialog;
+        //    Button btnClicked = objAlertDialog.GetButton(e.Which);
+        //    Toast.MakeText(this, "you clicked on " + btnClicked.Text, ToastLength.Long).Show();
+        //}
 
         private async void FabOnClick(object sender, EventArgs eventArgs)
         {

@@ -2585,6 +2585,9 @@ namespace FamilyLocator
 			// aapt resource value: 0x7f0b0064
 			public const int action_bar_title = 2131427428;
 			
+			// aapt resource value: 0x7f0b00c9
+			public const int action_changeView = 2131427529;
+			
 			// aapt resource value: 0x7f0b00ab
 			public const int action_container = 2131427499;
 			
@@ -2612,8 +2615,8 @@ namespace FamilyLocator
 			// aapt resource value: 0x7f0b0066
 			public const int action_mode_close_button = 2131427430;
 			
-			// aapt resource value: 0x7f0b00c7
-			public const int action_settings = 2131427527;
+			// aapt resource value: 0x7f0b00c8
+			public const int action_settings = 2131427528;
 			
 			// aapt resource value: 0x7f0b00ad
 			public const int action_text = 2131427501;
@@ -2920,6 +2923,9 @@ namespace FamilyLocator
 			
 			// aapt resource value: 0x7f0b007f
 			public const int radio = 2131427455;
+			
+			// aapt resource value: 0x7f0b00c7
+			public const int radio_group = 2131427527;
 			
 			// aapt resource value: 0x7f0b0054
 			public const int right = 2131427412;
@@ -3414,7 +3420,10 @@ namespace FamilyLocator
 			public const int activity_main_drawer = 2131623936;
 			
 			// aapt resource value: 0x7f0e0001
-			public const int menu_main = 2131623937;
+			public const int dialog_radioBtn = 2131623937;
+			
+			// aapt resource value: 0x7f0e0002
+			public const int menu_main = 2131623938;
 			
 			static Menu()
 			{
@@ -3537,6 +3546,9 @@ namespace FamilyLocator
 			
 			// aapt resource value: 0x7f080021
 			public const int abc_toolbar_collapse_description = 2131230753;
+			
+			// aapt resource value: 0x7f08003c
+			public const int action_changeView = 2131230780;
 			
 			// aapt resource value: 0x7f08003b
 			public const int action_settings = 2131230779;
