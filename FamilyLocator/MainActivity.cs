@@ -6,6 +6,7 @@ using Android.Content;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
+using Android.Provider;
 using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
@@ -14,7 +15,10 @@ using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
 using Android.Widget;
+using Newtonsoft.Json;
 using Plugin.Geolocator;
+using Plugin.GoogleClient;
+using Xamarin.Auth;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 using AlertDialog = Android.App.AlertDialog;
 
@@ -210,6 +214,9 @@ namespace FamilyLocator
         {
             int id = item.ItemId;
 
+            listView();
+            //signIn();
+
             if (id == Resource.Id.nav_camera)
             {
                 // Handle the camera action
@@ -238,6 +245,16 @@ namespace FamilyLocator
             DrawerLayout drawer = FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout);
             drawer.CloseDrawer(GravityCompat.Start);
             return true;
+        }
+
+        private void listView()
+        {
+            StartActivity(typeof(ListViewActivity));
+        }
+
+        private void signIn()
+        {
+            StartActivity(typeof(SignInActivity));
         }
     }
 }

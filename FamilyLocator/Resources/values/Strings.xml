@@ -4,4 +4,6 @@
     <string name="navigation_drawer_close">Close navigation drawer</string>
     <string name="action_settings">Settings</string>
     <string name="action_changeView">View</string>
+    <string name="googleOauthAndroidClientID">417371590404-chu45uoru1r4vg1u3qro73aanbt5k2eq.apps.googleusercontent.com</string>
+    <string name="googleOauthAndroidRedirectUrl">com.googleusercontent.apps.417371590404-chu45uoru1r4vg1u3qro73aanbt5k2eq:/oauth2redirect</string>
 </resources>
