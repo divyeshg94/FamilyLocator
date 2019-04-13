@@ -2,11 +2,11 @@
 using System.Threading.Tasks;
 using Android;
 using Android.App;
+using Android.App.Job;
 using Android.Content;
 using Android.Gms.Maps;
 using Android.Gms.Maps.Model;
 using Android.OS;
-using Android.Provider;
 using Android.Support.Design.Widget;
 using Android.Support.V4.App;
 using Android.Support.V4.View;
@@ -14,11 +14,8 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
-using Android.Widget;
-using Newtonsoft.Json;
+using FamilyLocator.Service;
 using Plugin.Geolocator;
-using Plugin.GoogleClient;
-using Xamarin.Auth;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
 using AlertDialog = Android.App.AlertDialog;
 
@@ -56,6 +53,7 @@ namespace FamilyLocator
             navigationView.SetNavigationItemSelectedListener(this);
             permissionCheck();
             SetupMap();
+            setJobScheduler();
         }
 
         private void SetupMap()
@@ -95,7 +93,7 @@ namespace FamilyLocator
             // Do something with the map, i.e. add markers, move to a specific location, etc.
         }
 
-        private async Task<LatLng> getUserLatLng()
+        public async Task<LatLng> getUserLatLng()
         {
             var locator = CrossGeolocator.Current;
             if (locator.IsGeolocationEnabled)
@@ -148,7 +146,7 @@ namespace FamilyLocator
         public override void OnBackPressed()
         {
             var drawer = FindViewById<DrawerLayout>(Resource.Id.drawer_layout);
-            if(drawer.IsDrawerOpen(GravityCompat.Start))
+            if (drawer.IsDrawerOpen(GravityCompat.Start))
             {
                 drawer.CloseDrawer(GravityCompat.Start);
             }
@@ -170,7 +168,8 @@ namespace FamilyLocator
             if (id == Resource.Id.action_settings)
             {
                 return true;
-            } else if (id == Resource.Id.action_changeView)
+            }
+            else if (id == Resource.Id.action_changeView)
             {
                 //methodInvokeBaseAlertDialog();
                 var alertDialog = new AlertDialog.Builder(this);
@@ -183,29 +182,25 @@ namespace FamilyLocator
             return base.OnOptionsItemSelected(item);
         }
 
-        //private void methodInvokeBaseAlertDialog()
-        //{
-        //    Dialog dialog = new Dialog(this);
-        //    dialog.SetContentView(Resource.Layout.content_main);
-        //    dialog.SetTitle("Dialog with Radio Button");
-        //    dialog.SetCancelable(true);
-
-        //    RadioButton rd1 = (RadioButton)dialog.FindViewById(Resource.Id.rd1);
-        //    RadioButton rd2 = (RadioButton)dialog.FindViewById(Resource.Id.rd2);
-
-        //    dialog.Show();
-        //}
-
-        //void handllerNotingButton(object sender, DialogClickEventArgs e)
-        //{
-        //    AlertDialog objAlertDialog = sender as AlertDialog;
-        //    Button btnClicked = objAlertDialog.GetButton(e.Which);
-        //    Toast.MakeText(this, "you clicked on " + btnClicked.Text, ToastLength.Long).Show();
-        //}
+        private void setJobScheduler()
+        {
+            var jobBuilder = this.CreateJobBuilderUsingJobId<UpdateLocationJob>(1);
+            var jobInfo = jobBuilder.SetRequiresBatteryNotLow(true).Build();
+            JobScheduler jobScheduler = (JobScheduler)GetSystemService(Context.JobSchedulerService);
+            int resultCode = jobScheduler.Schedule(jobInfo);
+            if (resultCode == JobScheduler.ResultSuccess)
+            {
+                Log.Info("Job: ", "Job scheduled!");
+            }
+            else
+            {
+                Log.Info("", "Job not scheduled");
+            }
+        }
 
         private async void FabOnClick(object sender, EventArgs eventArgs)
         {
-            View view = (View) sender;
+            View view = (View)sender;
             var location = await getUserLatLng();
             updateCamera(location);
         }
@@ -214,10 +209,12 @@ namespace FamilyLocator
         {
             int id = item.ItemId;
 
-            listView();
             //signIn();
-
-            if (id == Resource.Id.nav_camera)
+            if (id == Resource.Id.nav_MyListView)
+            {
+                listView();
+            }
+            else if (id == Resource.Id.nav_camera)
             {
                 // Handle the camera action
             }

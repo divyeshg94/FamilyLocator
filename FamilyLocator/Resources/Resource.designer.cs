@@ -2596,8 +2596,8 @@ namespace FamilyLocator
 			// aapt resource value: 0x7f0b0064
 			public const int action_bar_title = 2131427428;
 			
-			// aapt resource value: 0x7f0b00da
-			public const int action_changeView = 2131427546;
+			// aapt resource value: 0x7f0b00db
+			public const int action_changeView = 2131427547;
 			
 			// aapt resource value: 0x7f0b00b4
 			public const int action_container = 2131427508;
@@ -2626,8 +2626,8 @@ namespace FamilyLocator
 			// aapt resource value: 0x7f0b0066
 			public const int action_mode_close_button = 2131427430;
 			
-			// aapt resource value: 0x7f0b00d9
-			public const int action_settings = 2131427545;
+			// aapt resource value: 0x7f0b00da
+			public const int action_settings = 2131427546;
 			
 			// aapt resource value: 0x7f0b00b6
 			public const int action_text = 2131427510;
@@ -2891,22 +2891,25 @@ namespace FamilyLocator
 			public const int multiply = 2131427379;
 			
 			// aapt resource value: 0x7f0b00d2
-			public const int nav_camera = 2131427538;
+			public const int nav_MyListView = 2131427538;
 			
 			// aapt resource value: 0x7f0b00d3
-			public const int nav_gallery = 2131427539;
-			
-			// aapt resource value: 0x7f0b00d5
-			public const int nav_manage = 2131427541;
-			
-			// aapt resource value: 0x7f0b00d7
-			public const int nav_send = 2131427543;
-			
-			// aapt resource value: 0x7f0b00d6
-			public const int nav_share = 2131427542;
+			public const int nav_camera = 2131427539;
 			
 			// aapt resource value: 0x7f0b00d4
-			public const int nav_slideshow = 2131427540;
+			public const int nav_gallery = 2131427540;
+			
+			// aapt resource value: 0x7f0b00d6
+			public const int nav_manage = 2131427542;
+			
+			// aapt resource value: 0x7f0b00d8
+			public const int nav_send = 2131427544;
+			
+			// aapt resource value: 0x7f0b00d7
+			public const int nav_share = 2131427543;
+			
+			// aapt resource value: 0x7f0b00d5
+			public const int nav_slideshow = 2131427541;
 			
 			// aapt resource value: 0x7f0b0096
 			public const int nav_view = 2131427478;
@@ -2953,8 +2956,8 @@ namespace FamilyLocator
 			// aapt resource value: 0x7f0b007f
 			public const int radio = 2131427455;
 			
-			// aapt resource value: 0x7f0b00d8
-			public const int radio_group = 2131427544;
+			// aapt resource value: 0x7f0b00d9
+			public const int radio_group = 2131427545;
 			
 			// aapt resource value: 0x7f0b00c8
 			public const int relativeLayout1 = 2131427528;

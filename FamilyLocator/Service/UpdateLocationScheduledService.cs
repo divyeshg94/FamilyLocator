@@ -56,7 +56,9 @@ namespace FamilyLocator.Service
             string Address_locality;
             string Address_sublocality;
             string Address_neighborhood;
-            FamilyLocationService.ReverseGeoLoc(latLng.Latitude.ToString(), latLng.Longitude.ToString());
+            FamilyLocationService.ReverseGeoLoc(latLng.Latitude.ToString(), latLng.Longitude.ToString(), out Address_ShortName, out Address_country,
+                out Address_administrative_area_level_1, out Address_administrative_area_level_2, out Address_administrative_area_level_3, 
+                out Address_colloquial_area, out Address_locality, out Address_sublocality, out Address_neighborhood);
         }
     }
 }

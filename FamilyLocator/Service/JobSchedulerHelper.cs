@@ -22,9 +22,4 @@ namespace FamilyLocator.Service
             return new JobInfo.Builder(jobId, componentName);
         }
     }
-
-    //// Sample usage - creates a JobBuilder for a DownloadJob and sets the Job ID to 1.
-    //var jobBuilder = this.CreateJobBuilderUsingJobId<DownloadJob>(1);
-
-    //var jobInfo = jobBuilder.Build();  // creates a JobInfo object.
 }

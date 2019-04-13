@@ -48,16 +48,16 @@ namespace FamilyLocator
             };
             lstViewData.ItemClick += (s, e) =>
             {
-                    //Set Backround for selected item  
-                    for (int i = 0; i < lstViewData.Count; i++)
+                //Set Backround for selected item  
+                for (int i = 0; i < lstViewData.Count; i++)
                 {
                     if (e.Position == i)
                         lstViewData.GetChildAt(i).SetBackgroundColor(Android.Graphics.Color.AntiqueWhite);
                     else
                         lstViewData.GetChildAt(i).SetBackgroundColor(Android.Graphics.Color.Transparent);
                 }
-                    //Binding Data  
-                    var txtView_Id = e.View.FindViewById<TextView>(Resource.Id.txtView_Id);
+                //Binding Data  
+                var txtView_Id = e.View.FindViewById<TextView>(Resource.Id.txtView_Id);
                 var txtView_LatLng = e.View.FindViewById<TextView>(Resource.Id.txtView_LatLng);
                 var txtView_Date = e.View.FindViewById<TextView>(Resource.Id.txtView_Date);
                 edtLocation.Text = txtView_LatLng.Text;
