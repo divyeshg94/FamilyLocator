@@ -11,7 +11,7 @@ using FamilyLocator.Service;
 //Refer https://www.c-sharpcorner.com/article/xamarin-android-sqlite-database/
 namespace FamilyLocator
 {
-    [Activity(Label = "ListViewActivity")]
+    [Activity(Label = "My Locations")]
     public class ListViewActivity : Activity
     {
         ListView lstViewData;

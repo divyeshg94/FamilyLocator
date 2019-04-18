@@ -40,23 +40,17 @@ namespace FamilyLocator.Service
         private async Task UpdateLocationInfo()
         {
             var latLng = await FamilyLocationService.GetUserLatLng();
+
+            var locationName = FamilyLocationService.ReverseGeoLoc(latLng.Latitude.ToString(), latLng.Longitude.ToString()).Result;
+
             var db = new Database();
             var location = new Location()
             {
                 LocationLatLng = latLng.Latitude + " " + latLng.Longitude,
-                Time = DateTime.UtcNow
+                Time = DateTime.UtcNow,
+                LocationName = locationName
             };
             db.insertIntoTable(location);
-            string Address_ShortName;
-            string Address_country;
-            string Address_administrative_area_level_1;
-            string Address_administrative_area_level_2;
-            string Address_administrative_area_level_3;
-            string Address_colloquial_area;
-            string Address_locality;
-            string Address_sublocality;
-            string Address_neighborhood;
-            FamilyLocationService.ReverseGeoLoc(latLng.Latitude.ToString(), latLng.Longitude.ToString());
         }
     }
 }

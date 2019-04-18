@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Android;
 using Android.App;
@@ -14,6 +15,7 @@ using Android.Support.V4.Widget;
 using Android.Support.V7.App;
 using Android.Util;
 using Android.Views;
+using Android.Widget;
 using FamilyLocator.Service;
 using Plugin.Geolocator;
 using ActionBarDrawerToggle = Android.Support.V7.App.ActionBarDrawerToggle;
@@ -25,6 +27,7 @@ namespace FamilyLocator
     public class MainActivity : AppCompatActivity, NavigationView.IOnNavigationItemSelectedListener, IOnMapReadyCallback
     {
         private GoogleMap mMap;
+        private int _mapType = GoogleMap.MapTypeHybrid;
 
         public readonly string[] PermissionsLocation =
         {
@@ -68,7 +71,7 @@ namespace FamilyLocator
         {
             mMap = googleMap;
 
-            var location = await getUserLatLng();
+            var location = await FamilyLocationService.GetUserLatLng();
             updateCamera(location);
             addMarker(mMap, location);
         }
@@ -87,29 +90,10 @@ namespace FamilyLocator
 
             mMap.MoveCamera(cameraUpdate);
 
-            mMap.MapType = GoogleMap.MapTypeHybrid;
+            mMap.MapType = _mapType;
             mMap.UiSettings.ZoomControlsEnabled = true;
             mMap.UiSettings.CompassEnabled = true;
             // Do something with the map, i.e. add markers, move to a specific location, etc.
-        }
-
-        public async Task<LatLng> getUserLatLng()
-        {
-            var locator = CrossGeolocator.Current;
-            if (locator.IsGeolocationEnabled)
-            {
-                locator.DesiredAccuracy = 50;
-                var position = await locator.GetPositionAsync(timeout: TimeSpan.FromSeconds(10));
-                return new LatLng(position.Latitude, position.Longitude);
-            }
-            else
-            {
-                NavigationView navigationView = FindViewById<NavigationView>(Resource.Id.nav_view);
-                Snackbar.Make(navigationView, "Geo Location is not enabled", Snackbar.LengthLong)
-                    .SetAction("Action", (Android.Views.View.IOnClickListener)null).Show();
-
-                return new LatLng(11.016844, 76.955833);
-            }
         }
 
         private void addMarker(GoogleMap map, LatLng location)
@@ -171,12 +155,26 @@ namespace FamilyLocator
             }
             else if (id == Resource.Id.action_changeView)
             {
-                //methodInvokeBaseAlertDialog();
-                var alertDialog = new AlertDialog.Builder(this);
-                alertDialog.SetTitle("Select the View");
-                var radioView = FindViewById<DrawerLayout>(Resource.Id.radio_group);
-                alertDialog.SetView(radioView);
-                alertDialog.Show();
+                Dialog dialog = new Dialog(this);
+                dialog.SetContentView(Resource.Layout.custom_dialoge);
+                dialog.SetTitle("Select View");
+                List<String> stringList = new List<string>();  // here is list 
+                stringList.Add("None");
+                stringList.Add("Normal");
+                stringList.Add("Satellite");
+                stringList.Add("Terrain");
+                stringList.Add("Hybrid");
+
+                RadioGroup rg = (RadioGroup)dialog.FindViewById(Resource.Id.radio_group);
+
+                foreach(var type in stringList)
+                {
+                    RadioButton rb1 = new RadioButton(this); // dynamically creating RadioButton and adding to RadioGroup.
+                    rb1.Text = type;
+                    rg.AddView(rb1);
+                }
+
+                dialog.Show();
             }
 
             return base.OnOptionsItemSelected(item);
@@ -185,7 +183,7 @@ namespace FamilyLocator
         private void setJobScheduler()
         {
             var jobBuilder = this.CreateJobBuilderUsingJobId<UpdateLocationJob>(1);
-            var jobInfo = jobBuilder.SetRequiresBatteryNotLow(true).Build();
+            var jobInfo = jobBuilder.SetRequiresBatteryNotLow(true).SetPeriodic(900000).Build(); //Minimum 15 minutes https://stackoverflow.com/questions/29492022/job-scheduler-not-running-within-set-interval
             JobScheduler jobScheduler = (JobScheduler)GetSystemService(Context.JobSchedulerService);
             int resultCode = jobScheduler.Schedule(jobInfo);
             if (resultCode == JobScheduler.ResultSuccess)
@@ -201,7 +199,7 @@ namespace FamilyLocator
         private async void FabOnClick(object sender, EventArgs eventArgs)
         {
             View view = (View)sender;
-            var location = await getUserLatLng();
+            var location = await FamilyLocationService.GetUserLatLng();
             updateCamera(location);
         }
 

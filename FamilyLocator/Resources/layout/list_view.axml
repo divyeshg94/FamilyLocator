@@ -16,6 +16,12 @@
         android:layout_height="wrap_content"  
         android:id="@+id/txtView_LatLng" />  
     <TextView  
+        android:text="Name"  
+        android:textAppearance="?android:attr/textAppearanceMedium"  
+        android:layout_width="match_parent"  
+        android:layout_height="wrap_content"  
+        android:id="@+id/txtView_Name" /> 
+    <TextView  
         android:text="Date"  
         android:textAppearance="?android:attr/textAppearanceMedium"  
         android:layout_width="match_parent"  
