@@ -157,27 +157,38 @@ namespace FamilyLocator
             {
                 Dialog dialog = new Dialog(this);
                 dialog.SetContentView(Resource.Layout.custom_dialoge);
-                dialog.SetTitle("Select View");
-                List<String> stringList = new List<string>();  // here is list 
-                stringList.Add("None");
-                stringList.Add("Normal");
-                stringList.Add("Satellite");
-                stringList.Add("Terrain");
-                stringList.Add("Hybrid");
+                Dictionary<int, String> stringList = new Dictionary<int, string>();  // here is list 
+                stringList.Add(GoogleMap.MapTypeNone, "None");
+                stringList.Add(GoogleMap.MapTypeNormal, "Normal");
+                stringList.Add(GoogleMap.MapTypeSatellite, "Satellite");
+                stringList.Add(GoogleMap.MapTypeTerrain, "Terrain");
+                stringList.Add(GoogleMap.MapTypeHybrid, "Hybrid");
 
                 RadioGroup rg = (RadioGroup)dialog.FindViewById(Resource.Id.radio_group);
 
                 foreach(var type in stringList)
                 {
                     RadioButton rb1 = new RadioButton(this); // dynamically creating RadioButton and adding to RadioGroup.
-                    rb1.Text = type;
+                    rb1.Text = type.Value;
                     rg.AddView(rb1);
+                    rb1.Click += delegate {
+                        dialog.Hide();
+                        onViewSelected(type.Key);
+                    };
                 }
-
+                dialog.SetTitle("Select View"); //TODO: Divyesh View title not working 
                 dialog.Show();
+                dialog.Window.SetLayout(700, 600);
             }
 
             return base.OnOptionsItemSelected(item);
+        }
+
+        private async Task onViewSelected(int viewId)
+        {
+            _mapType = viewId;
+            var location = await FamilyLocationService.GetUserLatLng();
+            updateCamera(location);
         }
 
         private void setJobScheduler()
