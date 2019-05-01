@@ -151,7 +151,7 @@ namespace FamilyLocator
             int id = item.ItemId;
             if (id == Resource.Id.action_settings)
             {
-                return true;
+                StartActivity(typeof(SignInActivity));
             }
             else if (id == Resource.Id.action_changeView)
             {
@@ -256,11 +256,6 @@ namespace FamilyLocator
         private void listView()
         {
             StartActivity(typeof(ListViewActivity));
-        }
-
-        private void signIn()
-        {
-            StartActivity(typeof(SignInActivity));
         }
     }
 }

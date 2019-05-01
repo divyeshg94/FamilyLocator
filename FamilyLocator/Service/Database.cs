@@ -17,6 +17,7 @@ namespace FamilyLocator.Service
                 using (var connection = new SQLiteConnection(System.IO.Path.Combine(folder, locationDb)))
                 {
                     connection.CreateTable<Location>();
+                    connection.CreateTable<Identity>();
                     return true;
                 }
             }
