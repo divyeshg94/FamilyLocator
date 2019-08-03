@@ -45,6 +45,7 @@ namespace FamilyLocator.Service
                 return false;
             }
         }
+
         public List<Location> selectTable()
         {
             try

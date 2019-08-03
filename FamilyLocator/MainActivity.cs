@@ -247,6 +247,10 @@ namespace FamilyLocator
             {
 
             }
+            else if (id == Resource.Id.nav_message)
+            {
+                StartActivity(typeof(MessageActivity));
+            }
 
             DrawerLayout drawer = FindViewById<Android.Support.V4.Widget.DrawerLayout>(Resource.Id.drawer_layout);
             drawer.CloseDrawer(GravityCompat.Start);
